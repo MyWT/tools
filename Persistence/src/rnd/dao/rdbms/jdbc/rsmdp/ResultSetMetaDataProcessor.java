@@ -1,4 +1,4 @@
-package rnd.dao.jdbc.rsmdp;
+package rnd.dao.rdbms.jdbc.rsmdp;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

@@ -1,12 +1,12 @@
-package rnd.dao.jdbc.rsp;
+package rnd.dao.rdbms.jdbc.rsp;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import rnd.dao.jdbc.rp.RowProcessor;
-import rnd.dao.jdbc.rp.UnitRowProcessor;
+import rnd.dao.rdbms.jdbc.rp.RowProcessor;
+import rnd.dao.rdbms.jdbc.rp.UnitRowProcessor;
 
 public class ListResultSetProcessor extends AbstractResultSetProcessor {
 

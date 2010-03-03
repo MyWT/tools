@@ -1,11 +1,11 @@
-package rnd.dao.jdbc.rsp;
+package rnd.dao.rdbms.jdbc.rsp;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-import rnd.dao.jdbc.rp.RowProcessor;
-import rnd.dao.jdbc.rsmdp.ResultSetMetaDataProcessor;
+import rnd.dao.rdbms.jdbc.rp.RowProcessor;
+import rnd.dao.rdbms.jdbc.rsmdp.ResultSetMetaDataProcessor;
 
 /**
  * Result Set Processor are static singltons so there is no use of non-static data

@@ -1,7 +1,7 @@
-package rnd.dao.jdbc.rsp;
+package rnd.dao.rdbms.jdbc.rsp;
 
-import rnd.dao.jdbc.rp.ArrayRowProcessor;
-import rnd.dao.jdbc.rp.RowProcessor;
+import rnd.dao.rdbms.jdbc.rp.ArrayRowProcessor;
+import rnd.dao.rdbms.jdbc.rp.RowProcessor;
 
 public class MapListArrayResultSetProcessor extends MapListResultSetProcessor {
 

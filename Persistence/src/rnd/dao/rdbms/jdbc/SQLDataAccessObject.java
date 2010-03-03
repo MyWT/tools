@@ -1,25 +1,28 @@
-package rnd.dao.jdbc;
+package rnd.dao.rdbms.jdbc;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import rnd.dao.jdbc.rsmdp.ResultSetMetaDataProcessor;
-import rnd.dao.jdbc.rsp.ArrayResultSetProcessor;
-import rnd.dao.jdbc.rsp.ListArrayResultSetProcessor;
-import rnd.dao.jdbc.rsp.ListResultSetProcessor;
-import rnd.dao.jdbc.rsp.MapArrayResultSetProcessor;
-import rnd.dao.jdbc.rsp.MapListArrayResultSetProcessor;
-import rnd.dao.jdbc.rsp.MapListResultSetProcessor;
-import rnd.dao.jdbc.rsp.MapResultSetProcessor;
-import rnd.dao.jdbc.rsp.ResultSetProcessor;
-import rnd.dao.jdbc.rsp.UnitResultSetProcessor;
+import rnd.dao.rdbms.RDBMSDataAccessObject;
+import rnd.dao.rdbms.jdbc.rsmdp.ResultSetMetaDataProcessor;
+import rnd.dao.rdbms.jdbc.rsp.ArrayResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.ListArrayResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.ListResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.MapArrayResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.MapListArrayResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.MapListResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.MapResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.ResultSetProcessor;
+import rnd.dao.rdbms.jdbc.rsp.UnitResultSetProcessor;
 
-public class QueryExecutor {
+public class SQLDataAccessObject implements RDBMSDataAccessObject {
 
-	private QueryExecutor() {
+	private SQLDataAccessObject() {
 	}
 
 	// Unit : It is a atomic value
@@ -43,11 +46,11 @@ public class QueryExecutor {
 
 	public static ResultSetProcessor MapListArrayResultSetProcessor = new MapListArrayResultSetProcessor();
 
-	private static QueryExecutor sharedInstance;
+	private static SQLDataAccessObject sharedInstance;
 
-	public static synchronized QueryExecutor get() {
+	public static synchronized SQLDataAccessObject get() {
 		if (sharedInstance == null) {
-			sharedInstance = new QueryExecutor();
+			sharedInstance = new SQLDataAccessObject();
 		}
 		return sharedInstance;
 	}
@@ -108,7 +111,9 @@ public class QueryExecutor {
 		return executeStatement(query, param, new StatementExecutor() {
 			public Object executeStatement(Statement stat) throws SQLException {
 				boolean result = stat.execute(decorateQuery(query, param));
-				if (result) { return resultSetProcessor.processResultSet(stat.getResultSet(), rsmdp); }
+				if (result) {
+					return resultSetProcessor.processResultSet(stat.getResultSet(), rsmdp);
+				}
 				return stat.getUpdateCount();
 			}
 		}, conn, closeConnection);
@@ -120,11 +125,9 @@ public class QueryExecutor {
 		Statement stat = null;
 		try {
 			return statementExecutor.executeStatement(conn.createStatement());
-		}
-		catch (SQLException ex) {
+		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
-		}
-		finally {
+		} finally {
 			finallyClose(null, stat, conn, closeConnection);
 		}
 	}
@@ -154,14 +157,15 @@ public class QueryExecutor {
 			if (conn != null) {
 				conn.close();
 			}
-		}
-		catch (SQLException ex) {
+		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
 	// decorate Query : Replace '?' with Parmeter
 	// TODO : This decoration does not handle null parametet in case a of 'where' cluase
+
+	private static DateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	private String decorateQuery(String query, Object[] param) {
 		StringBuffer queryBuffer = new StringBuffer(query);
@@ -176,7 +180,7 @@ public class QueryExecutor {
 					if (param[i] != null) {
 						parameter = String.valueOf(param[i]);
 						if (param[i] instanceof Date) {
-							parameter = "'" + new java.sql.Date(((Date) param[i]).getTime()).toString() + "'";
+							parameter = "'" + sqlDateFormat.format((Date) param[i]) + "'";
 						}
 						if (param[i] instanceof String) {
 							parameter = "'" + parameter + "'";

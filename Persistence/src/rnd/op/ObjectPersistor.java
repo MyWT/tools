@@ -1,17 +1,7 @@
 package rnd.op;
 
-public interface ObjectPersistor {
+public interface ObjectPersistor<T> extends ObjectLifeCycle<T> {
 
-	// Persistence
-
-	Object saveObject(Object object);
-
-	Object findObject(Object id, Class objType);
-
-	void deleteObject(Object id, Class objType);
-
-	// Data Access
-
-	Long getObjectId(Object applicationBean);
+	Object getObjectId(Object object);
 
 }

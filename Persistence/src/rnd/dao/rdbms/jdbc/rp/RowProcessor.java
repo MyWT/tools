@@ -1,4 +1,4 @@
-package rnd.dao.jdbc.rp;
+package rnd.dao.rdbms.jdbc.rp;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

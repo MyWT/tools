@@ -1,9 +1,9 @@
-package rnd.dao.jdbc.rsp;
+package rnd.dao.rdbms.jdbc.rsp;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import rnd.dao.jdbc.rsmdp.ResultSetMetaDataProcessor;
+import rnd.dao.rdbms.jdbc.rsmdp.ResultSetMetaDataProcessor;
 
 public interface ResultSetProcessor {
 

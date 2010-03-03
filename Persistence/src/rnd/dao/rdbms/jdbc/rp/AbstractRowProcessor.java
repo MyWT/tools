@@ -1,4 +1,4 @@
-package rnd.dao.jdbc.rp;
+package rnd.dao.rdbms.jdbc.rp;
 
 public abstract class AbstractRowProcessor implements RowProcessor {
 
