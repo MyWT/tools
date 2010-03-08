@@ -8,7 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import rnd.dao.rdbms.RDBMSDataAccessObject;
+import rnd.dao.rdbms.SQLDAOContext;
+import rnd.dao.rdbms.SQLDataAccessObject;
 import rnd.dao.rdbms.jdbc.rsmdp.ResultSetMetaDataProcessor;
 import rnd.dao.rdbms.jdbc.rsp.ArrayResultSetProcessor;
 import rnd.dao.rdbms.jdbc.rsp.ListArrayResultSetProcessor;
@@ -20,13 +21,14 @@ import rnd.dao.rdbms.jdbc.rsp.MapResultSetProcessor;
 import rnd.dao.rdbms.jdbc.rsp.ResultSetProcessor;
 import rnd.dao.rdbms.jdbc.rsp.UnitResultSetProcessor;
 
-public class SQLDataAccessObject implements RDBMSDataAccessObject {
+public class JDBCDataAccessObject implements SQLDataAccessObject {
 
-	private SQLDataAccessObject() {
+	private JDBCDataAccessObject() {
 	}
 
 	// Unit : It is a atomic value
 	// Array : It is a horizenal row
+	
 	// List : It is a collection of Row (Unit/Array)
 	// Map : It map First Unit to rest Row (Unit/Array)
 
@@ -46,11 +48,11 @@ public class SQLDataAccessObject implements RDBMSDataAccessObject {
 
 	public static ResultSetProcessor MapListArrayResultSetProcessor = new MapListArrayResultSetProcessor();
 
-	private static SQLDataAccessObject sharedInstance;
+	private static JDBCDataAccessObject sharedInstance;
 
-	public static synchronized SQLDataAccessObject get() {
+	public static synchronized JDBCDataAccessObject get() {
 		if (sharedInstance == null) {
-			sharedInstance = new SQLDataAccessObject();
+			sharedInstance = new JDBCDataAccessObject();
 		}
 		return sharedInstance;
 	}
@@ -63,23 +65,23 @@ public class SQLDataAccessObject implements RDBMSDataAccessObject {
 
 	// executeQuery
 
-	public Object executeQuery(String query, ResultSetProcessor resultSetProcessor, Connection conn, boolean closeConnection) {
-		return executeQuery(query, null, resultSetProcessor, conn, closeConnection);
+	public Object executeQuery(String qry, ResultSetProcessor rsp, Connection conn, boolean closeConnn) {
+		return executeQuery(qry, null, rsp, conn, closeConnn);
 	}
 
-	public Object executeQuery(final String query, final Object[] param, final ResultSetProcessor resultSetProcessor, Connection conn, boolean closeConnection) {
-		return executeQuery(query, null, resultSetProcessor, null, conn, closeConnection);
+	public Object executeQuery(final String qry, final Object[] param, final ResultSetProcessor rsp, Connection conn, boolean closeConn) {
+		return executeQuery(qry, null, rsp, null, conn, closeConn);
 
 	}
 
-	public Object executeQuery(final String query, final Object[] param, final ResultSetProcessor resultSetProcessor, final ResultSetMetaDataProcessor rsmdp, Connection conn, boolean closeConnection) {
+	public Object executeQuery(final String query, final Object[] param, final ResultSetProcessor rsp, final ResultSetMetaDataProcessor rsmdp, Connection conn, boolean closeConn) {
 		return executeStatement(query, param, new StatementExecutor() {
-			public Object executeStatement(Statement stat) throws SQLException {
-				ResultSet rs = stat.executeQuery(decorateQuery(query, param));
-				Object returnValue = resultSetProcessor.processResultSet(rs, rsmdp);
-				return returnValue;
+			public Object executeStatement(Statement stmt) throws SQLException {
+				ResultSet rs = stmt.executeQuery(decorateQuery(query, param));
+				Object retVal = rsp.processResultSet(rs, rsmdp);
+				return retVal;
 			}
-		}, conn, closeConnection);
+		}, conn, closeConn);
 	}
 
 	// executeUpdate
@@ -194,5 +196,11 @@ public class SQLDataAccessObject implements RDBMSDataAccessObject {
 			}
 		}
 		return queryBuffer.toString();
+	}
+
+	@Override
+	public Object select(String[] fieldsNames, String from, String where, Object[] params, SQLDAOContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -17,7 +17,7 @@ public class ListResultSetProcessor extends AbstractResultSetProcessor {
 
 	@Override
 	protected Object processRowSet(ResultSet rs, RowProcessor rowProcessor) throws SQLException {
-		List returnList = new ArrayList(0);
+		List returnList = new ArrayList(rs.getFetchSize());
 		while (rs.next()) {
 			returnList.add(rowProcessor.processRow(rs));
 		}

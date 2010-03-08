@@ -6,10 +6,6 @@ import java.sql.SQLException;
 public class ArrayRowProcessor extends AbstractRowProcessor {
 
 	public Object processRow(ResultSet rs) throws SQLException {
-		// if (Debugger.D.pushCheck("rnd.sql.rp.ArrayRowProcessor.processRow")) {
-		// Debugger.D.push(this, null);
-		// }
-		// try {
 		// D.println("startIndex", startIndex);
 		// D.println("endIndex", endIndex);
 
@@ -22,9 +18,5 @@ public class ArrayRowProcessor extends AbstractRowProcessor {
 			// D.println("row_" + (i - startIndex), row[i - startIndex]);
 		}
 		return row;
-		// }
-		// finally {
-		// Debugger.D.pop("rnd.sql.rp.ArrayRowProcessor.processRow");
-		// }
 	}
 }

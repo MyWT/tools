@@ -21,7 +21,7 @@ public class MapListResultSetProcessor extends AbstractResultSetProcessor {
 	protected Object processRowSet(ResultSet rs, RowProcessor rowProcessor) throws SQLException {
 		rowProcessor.setStartIndex(2);
 
-		Map map = new HashMap();
+		Map map = new HashMap(rs.getFetchSize());
 		while (rs.next()) {
 
 			Object key = rs.getObject(1);

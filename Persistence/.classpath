@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/MyWTApp/war/WEB-INF/lib/jdo2-api-2.3-eb.jar"/>
+	<classpathentry kind="lib" path="/MyWTApp/war/WEB-INF/lib/jdo2-api-2.3-eb.jar" sourcepath="/home/vinodp/Programs/eclipse-galileo/plugins/com.google.appengine.eclipse.sdkbundle.1.3.0_1.3.0.v200912141120/appengine-java-sdk-1.3.0/src/orm/jdo2-api-2.3-SNAPSHOT-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

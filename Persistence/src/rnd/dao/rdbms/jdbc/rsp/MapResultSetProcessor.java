@@ -20,7 +20,7 @@ public class MapResultSetProcessor extends AbstractResultSetProcessor {
 
 		rowProcessor.setStartIndex(2);
 
-		Map map = new HashMap(0);
+		Map map = new HashMap(rs.getFetchSize());
 		while (rs.next()) {
 			map.put(rs.getObject(1), rowProcessor.processRow(rs));
 		}
