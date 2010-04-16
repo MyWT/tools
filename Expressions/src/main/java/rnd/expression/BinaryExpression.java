@@ -30,9 +30,8 @@ public class BinaryExpression extends AbstractExpression {
 		switch (this.operation) {
 		case ADD:
 			return performAddOperation(firstValue, secondValue);
-		default:
-			return throwUnsupportedOperationException(this.operation.toString());
 		}
+		throw new UnsupportedOperationException(this.operation.toString());
 	}
 
 	private Object performAddOperation(Object firstValue, Object secondValue) {

@@ -3,6 +3,8 @@ package rnd.expression;
 import java.util.ArrayList;
 import java.util.List;
 
+import rnd.utils.WrapperUtils;
+
 public class FilterExpression extends AbstractExpression {
 
 	private IndexedPropertyExpression indexedPropertyExpression;

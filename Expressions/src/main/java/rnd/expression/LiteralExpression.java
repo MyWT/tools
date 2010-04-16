@@ -1,6 +1,5 @@
 package rnd.expression;
 
-
 public class LiteralExpression extends AbstractExpression {
 
 	Object literalValue;
