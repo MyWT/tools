@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
-import javax.management.Query;
+import javax.jdo.Query;
 
 import rnd.dao.rdbms.JDOQLDAOContext;
 
