@@ -1,7 +1,7 @@
 package rnd.validation;
 
 import rnd.expression.Expression;
-import rnd.utils.WrapperUtils;
+import rnd.util.WrapperUtils;
 
 public class ExpressionValidation extends AbstractValidation {
 

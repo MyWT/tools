@@ -1,6 +1,5 @@
 package rnd.expression;
 
-import rnd.expression.AbstractExpression;
 
 public abstract class PropertyExpression extends AbstractExpression {
 

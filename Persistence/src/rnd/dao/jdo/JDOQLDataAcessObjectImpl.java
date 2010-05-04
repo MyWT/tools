@@ -5,10 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
+import javax.management.Query;
 
 import rnd.dao.rdbms.JDOQLDAOContext;
-import rnd.utils.BeanUtils;
 
 public class JDOQLDataAcessObjectImpl implements JDOQLDataAccessObject {
 

@@ -1,4 +1,4 @@
-package rnd.op.rdbms.jpa;
+package rnd.op.jpa;
 
 import rnd.op.ObjectPersistor;
 

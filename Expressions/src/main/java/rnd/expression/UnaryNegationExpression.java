@@ -1,6 +1,6 @@
 package rnd.expression;
 
-import rnd.utils.WrapperUtils;
+import rnd.util.WrapperUtils;
 
 
 public class UnaryNegationExpression extends UnaryExpression {

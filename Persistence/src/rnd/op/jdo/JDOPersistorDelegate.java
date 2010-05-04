@@ -4,11 +4,11 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-public abstract class JDOPersistorImpl implements JDOPersistor {
+public final class JDOPersistorDelegate implements JDOPersistor {
 
 	private final PersistenceManagerFactory pmf;
 
-	public JDOPersistorImpl(PersistenceManagerFactory pmf) {
+	public JDOPersistorDelegate(PersistenceManagerFactory pmf) {
 		this.pmf = pmf;
 	}
 
@@ -57,6 +57,11 @@ public abstract class JDOPersistorImpl implements JDOPersistor {
 			pm.close();
 		}
 
+	}
+
+	@Override
+	public String getInverseOwner(Class elementType, String indexedPrpName) {
+		throw new UnsupportedOperationException();
 	}
 
 }
