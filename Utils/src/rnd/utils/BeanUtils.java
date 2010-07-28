@@ -1,4 +1,4 @@
-package rnd.util;
+package rnd.utils;
 
 import java.lang.reflect.Method;
 

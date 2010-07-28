@@ -1,4 +1,4 @@
-package rnd.util;
+package rnd.utils;
 
 /**
  * @description This class is for Wrapper-Primtive data type conversion with null checking
