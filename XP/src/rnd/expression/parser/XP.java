@@ -1,7 +1,7 @@
 package rnd.expression.parser;
 
-import static rnd.expression.operator.Operator.OperatorAssociativity.Left;
-import static rnd.expression.operator.Operator.OperatorAssociativity.Right;
+import static rnd.expression.parser.operator.Operator.OperatorAssociativity.Left;
+import static rnd.expression.parser.operator.Operator.OperatorAssociativity.Right;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -9,12 +9,12 @@ import java.util.Queue;
 import java.util.Stack;
 
 import rnd.expression.Expression;
-import rnd.expression.operator.ArithmeticOperators;
-import rnd.expression.operator.EqualityOperators;
-import rnd.expression.operator.LogicalOperators;
-import rnd.expression.operator.Operator;
-import rnd.expression.operator.OperatorsRegistory;
-import rnd.expression.operator.RelationalOperators;
+import rnd.expression.parser.operator.ArithmeticOperators;
+import rnd.expression.parser.operator.EqualityOperators;
+import rnd.expression.parser.operator.LogicalOperators;
+import rnd.expression.parser.operator.Operator;
+import rnd.expression.parser.operator.OperatorsRegistory;
+import rnd.expression.parser.operator.RelationalOperators;
 import rnd.expression.parser.tree.node.DNode;
 import rnd.expression.parser.tree.node.ONode;
 import rnd.expression.parser.tree.node.XNode;

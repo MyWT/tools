@@ -1,6 +1,6 @@
-package rnd.expression.operator;
+package rnd.expression.parser.operator;
 
-import static rnd.expression.operator.Operator.OperatorAssociativity.Left;
+import static rnd.expression.parser.operator.Operator.OperatorAssociativity.Left;
 
 public class RelationalOperators extends AbstractOperator {
 

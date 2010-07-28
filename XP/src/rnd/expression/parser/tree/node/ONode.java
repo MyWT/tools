@@ -1,6 +1,6 @@
 package rnd.expression.parser.tree.node;
 
-import rnd.expression.operator.Operator;
+import rnd.expression.parser.operator.Operator;
 
 public class ONode extends XNode {
 

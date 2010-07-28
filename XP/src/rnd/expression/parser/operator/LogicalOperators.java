@@ -1,7 +1,7 @@
-package rnd.expression.operator;
+package rnd.expression.parser.operator;
 
-import static rnd.expression.operator.Operator.OperatorAssociativity.Left;
-import static rnd.expression.operator.Operator.OperatorAssociativity.Right;
+import static rnd.expression.parser.operator.Operator.OperatorAssociativity.Left;
+import static rnd.expression.parser.operator.Operator.OperatorAssociativity.Right;
 
 public class LogicalOperators extends AbstractOperator {
 

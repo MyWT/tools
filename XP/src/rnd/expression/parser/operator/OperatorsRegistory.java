@@ -1,4 +1,4 @@
-package rnd.expression.operator;
+package rnd.expression.parser.operator;
 
 import java.util.HashMap;
 import java.util.Map;

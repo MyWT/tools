@@ -1,4 +1,5 @@
-package rnd.expression.operator;
+package rnd.expression.parser.operator;
+
 
 public class AbstractOperator implements Operator {
 
