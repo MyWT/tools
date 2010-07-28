@@ -1,6 +1,6 @@
 package rnd.expression;
 
-import rnd.util.WrapperUtils;
+import rnd.utils.WrapperUtils;
 
 public class BinaryExpression extends AbstractExpression {
 
