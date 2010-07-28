@@ -2,8 +2,10 @@ package rnd.expression;
 
 import rnd.util.WrapperUtils;
 
-
 public class UnaryNegationExpression extends UnaryExpression {
+
+	public UnaryNegationExpression() {
+	}
 
 	public UnaryNegationExpression(Expression expression) {
 		super(expression);

@@ -1,96 +1,142 @@
 package rnd.expression.parser;
 
+import static rnd.expression.operator.Operator.OperatorAssociativity.*;
+
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+import rnd.expression.BinaryExpression;
 import rnd.expression.Expression;
+import rnd.expression.OperatorsRegistory;
+import rnd.expression.UnaryExpression;
+import rnd.expression.UnaryNegationExpression;
+import rnd.expression.operator.ArithmeticOperators;
+import rnd.expression.operator.EqualityOperators;
+import rnd.expression.operator.LogicalOperators;
 import rnd.expression.operator.Operator;
+import rnd.expression.operator.RelationalOperators;
 import rnd.expression.parser.tree.node.DNode;
 import rnd.expression.parser.tree.node.ONode;
 import rnd.expression.parser.tree.node.XNode;
 
 public class XP {
 
-	public static Expression parse(String exp) {
-		applyShuntingYardAlgo(exp);
-		return null;
+	private static final OperatorsRegistory OPREG = new OperatorsRegistory();
+
+	static {
+
+		// 1
+		OPREG.registerOperator2(LogicalOperators.OR);
+		// 2
+		OPREG.registerOperator2(LogicalOperators.AND);
+
+		// 3
+		OPREG.registerOperator2(EqualityOperators.EQUAL_TO);
+		OPREG.registerOperator2(EqualityOperators.NOT_EQUAL_TO);
+
+		// 4
+		OPREG.registerOperator(RelationalOperators.GT);
+		OPREG.registerOperator(RelationalOperators.LT);
+		OPREG.registerOperator2(RelationalOperators.GTE);
+		OPREG.registerOperator2(RelationalOperators.LTE);
+
+		// 5
+		OPREG.registerOperator(ArithmeticOperators.PLUS);
+		OPREG.registerOperator(ArithmeticOperators.MINUS);
+
+		// 6
+		OPREG.registerOperator(ArithmeticOperators.MULTIPLY);
+		OPREG.registerOperator(ArithmeticOperators.DIVIDE);
+		OPREG.registerOperator(ArithmeticOperators.MODULO);
+
+		// 7
+		OPREG.registerOperator(LogicalOperators.NOT);
+
 	}
 
-	public static void applyShuntingYardAlgo(String exp) {
+	public static Expression parse(String exp) {
+		Queue rpnNodeQueue = applyShuntingYardAlgo(exp);
+		Expression expresion = evaluateRPNExp(rpnNodeQueue);
+		return expresion;
+	}
 
-		Queue<XNode> queue = new LinkedList<XNode>();
+	public static Queue applyShuntingYardAlgo(String exp) {
+
+		Queue<XNode> nodeQueue = new LinkedList<XNode>();
 
 		Stack<XNode> stack = new Stack<XNode>();
 
 		XPInfo xInfo = new XPInfo(exp);
 
-		for (; xInfo.hasNext(); xInfo.next()) {
+		while (xInfo.next()) {
 
 			char ch = xInfo.currChar();
 			char ch2 = xInfo.nextChar();
 
 			if (Character.isWhitespace(ch)) {
 				continue;
-			} else if (ch == '*') {
-				stack.push(new ONode(Operator.MULTIPLY));
-			} else if (ch == '/') {
-				stack.push(new ONode(Operator.DIVIDE));
-			} else if (ch == '%') {
-				stack.push(new ONode(Operator.MODULO));
-			} else if (ch == '+') {
-				stack.push(new ONode(Operator.PLUS));
-			} else if (ch == '-') {
-				stack.push(new ONode(Operator.MINUS));
-			} else if (ch == '<') {
-				if (ch2 == '=') {
-					stack.push(new ONode(Operator.LTE));
-					xInfo.next();
-				} else {
-					stack.push(new ONode(Operator.LT));
+			}
+
+			// Operators
+			Operator op1 = OPREG.getOperator(ch);
+			Operator op2 = OPREG.getOperator2(ch, ch2);
+
+			if (op2 != null) {
+				op1 = op2;
+				xInfo.next();
+			}
+
+			if (op1 != null) {
+
+				while (!stack.isEmpty()) {
+					XNode node = stack.pop();
+
+					if (node instanceof ONode) {
+						op2 = ((ONode) node).getOperator();
+
+						if ((op1.getAssociativity().equals(Left) && op1.getPrecedence() <= op2.getPrecedence()) //
+								|| op1.getAssociativity().equals(Right) && op1.getPrecedence() < op2.getPrecedence()) {
+							nodeQueue.offer(new ONode(op2));
+						} else {
+							stack.push(node);
+							break;
+						}
+					}
 				}
-			} else if (ch == '>') {
-				if (ch2 == '=') {
-					stack.push(new ONode(Operator.GTE));
-					xInfo.next();
-				} else {
-					stack.push(new ONode(Operator.GT));
-				}
-			} else if (ch == '&') {
-				if (ch2 == '&') {
-					stack.push(new ONode(Operator.AND));
-					xInfo.next();
-				} else {
-					throwInvalidTokenException(xInfo);
-				}
-			} else if (ch == '|') {
-				if (ch2 == '|') {
-					stack.push(new ONode(Operator.OR));
-					xInfo.next();
-				} else {
-					throwInvalidTokenException(xInfo);
-				}
-			} else if (ch == '!') {
-				stack.push(new ONode(Operator.NOT));
-			} else if (Character.isJavaIdentifierStart(ch)) {
+				stack.push(new ONode(op1));
+			}
+			// Identifiers
+			else if (Character.isJavaIdentifierStart(ch)) {
 				String identifier = consumeIdentifier(xInfo);
-				stack.push(new DNode(identifier));
-			} else if (Character.isDigit(ch)) {
-				Number numder = consumeNumber(xInfo);
-				queue.add(new DNode(numder));
-			} else if (ch == '\'') {
+				DNode node = new DNode(identifier);
+				nodeQueue.offer(node);
+			}
+			// Numbers
+			else if (Character.isDigit(ch)) {
+				Number number = consumeNumber(xInfo);
+				nodeQueue.offer(new DNode(number));
+			}
+			// Literals
+			else if (ch == '\'') {
 				String literal = consumeLiteral(xInfo);
-				stack.push(new DNode(literal));
+				nodeQueue.offer(new DNode(literal));
 			}
 		}
 
+		while (!stack.isEmpty()) {
+			nodeQueue.offer(stack.pop());
+		}
+
 		System.out.println("Stack :" + stack);
-		System.out.println("Queue :" + queue);
+		System.out.println("Queue :" + nodeQueue);
+		return nodeQueue;
 	}
 
 	private static String consumeLiteral(XPInfo xInfo) {
 		StringBuilder sb = new StringBuilder("'");
-		for (; xInfo.hasNext() && xInfo.currChar() != '\''; xInfo.next()) {
+		while (xInfo.next() && xInfo.currChar() != '\'') {
 			sb.append(xInfo.currChar());
 		}
 		return sb.toString();
@@ -98,26 +144,53 @@ public class XP {
 
 	private static Number consumeNumber(XPInfo xInfo) {
 		StringBuilder sb = new StringBuilder();
-		for (; xInfo.hasNext() && Character.isDigit(xInfo.currChar()) || xInfo.currChar() == '.'; xInfo.next()) {
+		while (xInfo.next() && (Character.isDigit(xInfo.currChar()) || xInfo.currChar() == '.')) {
 			sb.append(xInfo.currChar());
 		}
-		String num = sb.toString();
-		if (num.contains(".")) {
-			return new Double(num);
-		} else {
-			return new Integer(num);
-		}
+		return new BigDecimal(sb.toString());
 	}
 
 	private static String consumeIdentifier(XPInfo xInfo) {
-		StringBuilder sb = new StringBuilder();
-		for (; xInfo.hasNext() && Character.isJavaIdentifierPart(xInfo.currChar()); xInfo.next()) {
+		StringBuilder sb = new StringBuilder().append(xInfo.currChar());
+		while (xInfo.next() && Character.isJavaIdentifierPart(xInfo.currChar())) {
 			sb.append(xInfo.currChar());
 		}
 		return sb.toString();
 	}
 
-	private static void throwInvalidTokenException(XPInfo xInfo) {
-		throw new RuntimeException("Invalid token " + xInfo.currChar() + "at location :" + xInfo.getLocation());
+	private static Expression evaluateRPNExp(Queue<XNode> rpnNodeQueue) {
+
+		while (!rpnNodeQueue.isEmpty()) {
+			XNode node = rpnNodeQueue.poll();
+			
+			if (node instanceof DNode) {
+				DNode dNode = (DNode) node;
+
+			} else {
+				ONode oNode = (ONode) node;
+				Operator op = oNode.getOperator();
+
+				if (op instanceof ArithmeticOperators) {
+					BinaryExpression be = new BinaryExpression();
+
+				} else if (op instanceof EqualityOperators) {
+					BinaryExpression be = new BinaryExpression();
+
+				} else if (op instanceof LogicalOperators) {
+					if (op == LogicalOperators.NOT) {
+						UnaryNegationExpression une = new UnaryNegationExpression();
+					} else {
+						BinaryExpression be = new BinaryExpression();
+					}
+				} else if (op instanceof RelationalOperators) {
+					BinaryExpression be = new BinaryExpression();
+				}
+
+			}
+
+		}
+
+		return null;
 	}
+
 }

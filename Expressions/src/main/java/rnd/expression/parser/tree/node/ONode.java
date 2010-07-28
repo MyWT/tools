@@ -1,16 +1,22 @@
 package rnd.expression.parser.tree.node;
 
+import rnd.expression.operator.Operator;
 
 public class ONode extends XNode {
 
-	private String op;
+	private Operator operator;
 
-	public ONode(String op) {
-		this.op = op;
+	public ONode(Operator operator) {
+		this.operator = operator;
+	}
+
+	public Operator getOperator() {
+		return operator;
 	}
 
 	@Override
 	public String toString() {
-		return op.toString();
+		return operator.getOpCode();
 	}
+
 }

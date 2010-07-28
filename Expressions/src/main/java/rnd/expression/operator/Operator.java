@@ -1,4 +1,15 @@
 package rnd.expression.operator;
 
-public interface Operator extends ArithmaticOperator1, ArithmaticOperator2, LogicalOperator, RelationalOperator {
+public interface Operator {
+
+	public static enum OperatorAssociativity {
+		Left, Right
+	}
+
+	String getOpCode();
+
+	OperatorAssociativity getAssociativity();
+
+	int getPrecedence();
+
 }

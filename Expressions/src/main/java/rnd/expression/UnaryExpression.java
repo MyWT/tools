@@ -4,6 +4,9 @@ public abstract class UnaryExpression extends AbstractExpression {
 
 	protected Expression expression;
 
+	public UnaryExpression() {
+	}
+
 	public UnaryExpression(Expression expression) {
 		this.expression = expression;
 	}

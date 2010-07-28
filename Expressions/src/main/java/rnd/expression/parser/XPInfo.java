@@ -2,26 +2,34 @@ package rnd.expression.parser;
 
 public class XPInfo {
 
-	private char[] expCh;
+	private char[] exp;
 
-	private int location;
+	private int loc;
 
 	private char ch;
 
-	private char ch1;
+	private char ch2;
 
 	public XPInfo(String exp) {
-		this.expCh = exp.toCharArray();
+		this.exp = exp.toCharArray();
 	}
 
-	public void next() {
-		location++;
-		ch = expCh[location];
-		if (hasNext()) {
-			ch1 = expCh[location + 1];
-		} else {
-			ch1 = (char) -1;
+	public boolean next() {
+
+		if (!hasNext()) {
+			return false;
 		}
+
+		ch = exp[loc];
+		ch2 = (char) -1;
+
+		loc++;
+
+		if (hasNext()) {
+			ch2 = exp[loc];
+		}
+		
+		return true;
 	}
 
 	public char currChar() {
@@ -29,15 +37,15 @@ public class XPInfo {
 	}
 
 	public char nextChar() {
-		return ch1;
+		return ch2;
 	}
 
-	public boolean hasNext() {
-		return location < expCh.length - 1;
+	private boolean hasNext() {
+		return loc < exp.length;
 	}
 
 	int getLocation() {
-		return location;
+		return loc;
 	}
 
 }
