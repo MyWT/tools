@@ -99,4 +99,21 @@ public class BinaryExpression extends AbstractExpression {
 	// return new BinaryExpressionXChangeListener(xchangeListener);
 	// }
 
+	@Override
+	public String toString() {
+		return firstExpression + " " + operation + " " + secondExpression;
+	}
+
+	public Expression getFirstExpression() {
+		return firstExpression;
+	}
+
+	public Expression getSecondExpression() {
+		return secondExpression;
+	}
+
+	public BinaryOperation getOperation() {
+		return operation;
+	}
+
 }

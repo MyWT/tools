@@ -15,4 +15,9 @@ public class LiteralExpression extends AbstractExpression {
 		return this.literalValue;
 	}
 
+	@Override
+	public String toString() {
+		return String.valueOf(literalValue);
+	}
+
 }

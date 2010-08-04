@@ -8,7 +8,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+import rnd.expression.BinaryExpression;
+import rnd.expression.BinaryOperation;
 import rnd.expression.Expression;
+import rnd.expression.LiteralExpression;
+import rnd.expression.UnaryNegationExpression;
 import rnd.expression.parser.operator.ArithmeticOperators;
 import rnd.expression.parser.operator.EqualityOperators;
 import rnd.expression.parser.operator.LogicalOperators;
@@ -26,29 +30,29 @@ public class XP {
 	static {
 
 		// 1
-		OPREG.registerOperator2(LogicalOperators.OR);
-		
+		OPREG.registerOperator2(LogicalOperators.OR, BinaryOperation.OR);
+
 		// 2
-		OPREG.registerOperator2(LogicalOperators.AND);
+		OPREG.registerOperator2(LogicalOperators.AND, BinaryOperation.AND);
 
 		// 3
-		OPREG.registerOperator2(EqualityOperators.EQUAL_TO);
-		OPREG.registerOperator2(EqualityOperators.NOT_EQUAL_TO);
+		OPREG.registerOperator2(EqualityOperators.EQUAL_TO, BinaryOperation.EQUALS);
+		OPREG.registerOperator2(EqualityOperators.NOT_EQUAL_TO, BinaryOperation.NOT_EQUALS);
 
 		// 4
-		OPREG.registerOperator(RelationalOperators.GT);
-		OPREG.registerOperator(RelationalOperators.LT);
-		OPREG.registerOperator2(RelationalOperators.GTE);
-		OPREG.registerOperator2(RelationalOperators.LTE);
+		OPREG.registerOperator(RelationalOperators.LT, BinaryOperation.LT);
+		OPREG.registerOperator(RelationalOperators.GT, BinaryOperation.GT);
+		OPREG.registerOperator2(RelationalOperators.LTE, BinaryOperation.LTE);
+		OPREG.registerOperator2(RelationalOperators.GTE, BinaryOperation.GTE);
 
 		// 5
-		OPREG.registerOperator(ArithmeticOperators.PLUS);
-		OPREG.registerOperator(ArithmeticOperators.MINUS);
+		OPREG.registerOperator(ArithmeticOperators.PLUS, BinaryOperation.ADD);
+		OPREG.registerOperator(ArithmeticOperators.MINUS, BinaryOperation.SUBTRACT);
 
 		// 6
-		OPREG.registerOperator(ArithmeticOperators.MULTIPLY);
-		OPREG.registerOperator(ArithmeticOperators.DIVIDE);
-		OPREG.registerOperator(ArithmeticOperators.MODULO);
+		OPREG.registerOperator(ArithmeticOperators.MULTIPLY, BinaryOperation.MULTIPLY);
+		OPREG.registerOperator(ArithmeticOperators.DIVIDE, BinaryOperation.DIVIDE);
+		OPREG.registerOperator(ArithmeticOperators.MODULO, BinaryOperation.MODULO);
 
 		// 7
 		OPREG.registerOperator(LogicalOperators.NOT);
@@ -56,14 +60,14 @@ public class XP {
 	}
 
 	public static Expression parse(String exp) {
-		Queue rpnNodeQueue = applyShuntingYardAlgo(exp);
+		Queue rpnNodeQueue = applyShuntingYard(exp);
 		Expression expresion = evaluateRPNExp(rpnNodeQueue);
 		return expresion;
 	}
 
-	public static Queue applyShuntingYardAlgo(String exp) {
+	public static Queue applyShuntingYard(String exp) {
 
-		Queue<XNode> nodeQueue = new LinkedList<XNode>();
+		Queue<XNode> rpnQueue = new LinkedList<XNode>();
 
 		Stack<XNode> stack = new Stack<XNode>();
 
@@ -90,6 +94,7 @@ public class XP {
 			if (op1 != null) {
 
 				while (!stack.isEmpty()) {
+
 					XNode node = stack.pop();
 
 					if (node instanceof ONode) {
@@ -97,7 +102,7 @@ public class XP {
 
 						if ((op1.getAssociativity().equals(Left) && op1.getPrecedence() <= op2.getPrecedence()) //
 								|| op1.getAssociativity().equals(Right) && op1.getPrecedence() < op2.getPrecedence()) {
-							nodeQueue.offer(new ONode(op2));
+							rpnQueue.offer(new ONode(op2));
 						} else {
 							stack.push(node);
 							break;
@@ -106,31 +111,34 @@ public class XP {
 				}
 				stack.push(new ONode(op1));
 			}
+
 			// Identifiers
 			else if (Character.isJavaIdentifierStart(ch)) {
 				String identifier = consumeIdentifier(xInfo);
 				DNode node = new DNode(identifier);
-				nodeQueue.offer(node);
+				rpnQueue.offer(node);
 			}
+
 			// Numbers
 			else if (Character.isDigit(ch)) {
 				Number number = consumeNumber(xInfo);
-				nodeQueue.offer(new DNode(number));
+				rpnQueue.offer(new DNode(number));
 			}
+
 			// Literals
 			else if (ch == '\'') {
 				String literal = consumeLiteral(xInfo);
-				nodeQueue.offer(new DNode(literal));
+				rpnQueue.offer(new DNode(literal));
 			}
 		}
 
 		while (!stack.isEmpty()) {
-			nodeQueue.offer(stack.pop());
+			rpnQueue.offer(stack.pop());
 		}
 
-		System.out.println("Stack :" + stack);
-		System.out.println("Queue :" + nodeQueue);
-		return nodeQueue;
+		// System.out.println("Stack :" + stack);
+		// System.out.println("Queue :" + rpnQueue);
+		return rpnQueue;
 	}
 
 	private static String consumeLiteral(XPInfo xInfo) {
@@ -157,39 +165,46 @@ public class XP {
 		return sb.toString();
 	}
 
-	private static Expression evaluateRPNExp(Queue<XNode> rpnNodeQueue) {
+	private static Expression evaluateRPNExp(Queue<XNode> rpnQueue) {
 
-		while (!rpnNodeQueue.isEmpty()) {
-			XNode node = rpnNodeQueue.poll();
-			
+		Stack<Expression> expStack = new Stack<Expression>();
+
+		while (!rpnQueue.isEmpty()) {
+
+			XNode node = rpnQueue.poll();
+
 			if (node instanceof DNode) {
-//				DNode dNode = (DNode) node;
+
+				DNode dNode = (DNode) node;
+				expStack.push(new LiteralExpression(dNode.getData()));
 
 			} else {
+
 				ONode oNode = (ONode) node;
 				Operator op = oNode.getOperator();
 
-				if (op instanceof ArithmeticOperators) {
-//					BinaryExpression be = new BinaryExpression();
-
-				} else if (op instanceof EqualityOperators) {
-//					BinaryExpression be = new BinaryExpression();
-
-				} else if (op instanceof LogicalOperators) {
-					if (op == LogicalOperators.NOT) {
-//						UnaryNegationExpression une = new UnaryNegationExpression();
-					} else {
-//						BinaryExpression be = new BinaryExpression();
-					}
-				} else if (op instanceof RelationalOperators) {
-//					BinaryExpression be = new BinaryExpression();
+				if (op == LogicalOperators.NOT) {
+					UnaryNegationExpression une = new UnaryNegationExpression(expStack.pop());
+					expStack.push(une);
+				} else {
+					BinaryExpression be = new BinaryExpression(expStack.pop(), expStack.pop(), OPREG.getBinaryOperation(op));
+					expStack.push(be);
 				}
-
 			}
-
 		}
 
-		return null;
+		return expStack.peek();
+	}
+
+	public static void printExpresion(Expression exp) {
+		if (exp instanceof BinaryExpression) {
+			BinaryExpression be = (BinaryExpression) exp;
+			printExpresion(be.getSecondExpression());
+			System.out.print(" " + be.getOperation() + " ");
+			printExpresion(be.getFirstExpression());
+		} else {
+			System.out.print(exp);
+		}
 	}
 
 }

@@ -18,7 +18,8 @@ public class UnaryNegationExpression extends UnaryExpression {
 
 	@Override
 	public String toString() {
-		return "!(" + expression + ")";
+		// return "!(" + expression + ")";
+		return "!" + expression;
 	}
 
 }
