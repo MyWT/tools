@@ -101,7 +101,7 @@ public class BinaryExpression extends AbstractExpression {
 
 	@Override
 	public String toString() {
-		return firstExpression + " " + operation + " " + secondExpression;
+		return secondExpression + " " + operation + " " + firstExpression;
 	}
 
 	public Expression getFirstExpression() {

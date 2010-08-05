@@ -12,6 +12,7 @@ import rnd.expression.BinaryExpression;
 import rnd.expression.BinaryOperation;
 import rnd.expression.Expression;
 import rnd.expression.LiteralExpression;
+import rnd.expression.PropertyExpression;
 import rnd.expression.UnaryNegationExpression;
 import rnd.expression.parser.operator.ArithmeticOperators;
 import rnd.expression.parser.operator.EqualityOperators;
@@ -22,6 +23,7 @@ import rnd.expression.parser.operator.RelationalOperators;
 import rnd.expression.parser.tree.node.DNode;
 import rnd.expression.parser.tree.node.ONode;
 import rnd.expression.parser.tree.node.XNode;
+import rnd.expression.parser.tree.node.DNode.DNodeType;
 
 public class XP {
 
@@ -115,20 +117,20 @@ public class XP {
 			// Identifiers
 			else if (Character.isJavaIdentifierStart(ch)) {
 				String identifier = consumeIdentifier(xInfo);
-				DNode node = new DNode(identifier);
+				DNode node = new DNode(identifier, DNodeType.VARIABLE);
 				rpnQueue.offer(node);
 			}
 
 			// Numbers
 			else if (Character.isDigit(ch)) {
 				Number number = consumeNumber(xInfo);
-				rpnQueue.offer(new DNode(number));
+				rpnQueue.offer(new DNode(number, DNodeType.LITERAL));
 			}
 
 			// Literals
 			else if (ch == '\'') {
 				String literal = consumeLiteral(xInfo);
-				rpnQueue.offer(new DNode(literal));
+				rpnQueue.offer(new DNode(literal, DNodeType.LITERAL));
 			}
 		}
 
@@ -138,6 +140,7 @@ public class XP {
 
 		// System.out.println("Stack :" + stack);
 		// System.out.println("Queue :" + rpnQueue);
+		
 		return rpnQueue;
 	}
 
@@ -176,8 +179,17 @@ public class XP {
 			if (node instanceof DNode) {
 
 				DNode dNode = (DNode) node;
-				expStack.push(new LiteralExpression(dNode.getData()));
 
+				Expression de = null;
+				switch (dNode.getNodeType()) {
+				case LITERAL:
+					de = new LiteralExpression(dNode.getData());
+					break;
+				case VARIABLE:
+					de = PropertyExpression.getPropertyExpression(dNode.getData());
+					break;
+				}
+				expStack.push(de);
 			} else {
 
 				ONode oNode = (ONode) node;
@@ -196,15 +208,15 @@ public class XP {
 		return expStack.peek();
 	}
 
-	public static void printExpresion(Expression exp) {
-		if (exp instanceof BinaryExpression) {
-			BinaryExpression be = (BinaryExpression) exp;
-			printExpresion(be.getSecondExpression());
-			System.out.print(" " + be.getOperation() + " ");
-			printExpresion(be.getFirstExpression());
-		} else {
-			System.out.print(exp);
-		}
-	}
+	// public static void printExpresion(Expression exp) {
+	// if (exp instanceof BinaryExpression) {
+	// BinaryExpression be = (BinaryExpression) exp;
+	// printExpresion(be.getSecondExpression());
+	// System.out.print(" " + be.getOperation() + " ");
+	// printExpresion(be.getFirstExpression());
+	// } else {
+	// System.out.print(exp);
+	// }
+	// }
 
 }
