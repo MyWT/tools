@@ -1,0 +1,10 @@
+<project name="Expressions" default="build-project">
+
+	<target name="build-project">
+		<jar destfile="expressions.jar">
+			<fileset dir="bin" />
+			<fileset dir="src/main/java" />
+		</jar>
+	</target>
+
+</project>

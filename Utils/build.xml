@@ -1,0 +1,9 @@
+<project name="Utils" default="build-project">
+
+	<target name="build-project">
+
+		<jar destfile="Utils.jar" includes="./bin" />
+
+	</target>
+
+</project>

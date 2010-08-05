@@ -1,0 +1,10 @@
+<project name="XP" default="build-project">
+
+	<target name="build-project">
+		<jar destfile="xp.jar">
+			<fileset dir="bin" />
+			<fileset dir="src/main" />
+		</jar>
+	</target>
+
+</project>

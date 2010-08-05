@@ -1,0 +1,11 @@
+<project name="Validations" default="build-project">
+
+	<target name="build-project">
+		<jar destfile="validations.jar">
+			<fileset dir="bin" />
+			<fileset dir="src/main/java" />
+			<fileset dir="src/main/resources" />
+		</jar>
+	</target>
+
+</project>

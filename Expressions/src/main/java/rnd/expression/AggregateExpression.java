@@ -1,18 +1,18 @@
 package rnd.expression;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class AggregateExpression extends AbstractExpression {
 
 	private IndexedPropertyExpression indexedPropertyExpression;
 	private AggregateOperation aggregateOperation;
-	private Expression aggregateExpression;
+
+	// private Expression aggregateExpression;
 
 	public AggregateExpression(IndexedPropertyExpression indexedPropertyExpression, Expression aggregateExpression, AggregateOperation aggregateOperation) {
 		this.indexedPropertyExpression = indexedPropertyExpression;
 		this.aggregateOperation = aggregateOperation;
-		this.aggregateExpression = aggregateExpression;
+		// this.aggregateExpression = aggregateExpression;
 	}
 
 	@Override
@@ -45,51 +45,55 @@ public class AggregateExpression extends AbstractExpression {
 		return indexedValue;
 	}
 
-	private Object average(List indexedValue) {
-		int count = count(indexedValue);
-		if (count > 0) {
-			return sum(indexedValue).divide(new BigDecimal(count));
-		}
-		return 0;
+	private Number average(List indexedValue) {
+		// int count = count(indexedValue);
+		// if (count > 0) {
+		// return sum(indexedValue).divide(new BigDecimal(count));
+		// }
+		// return 0;
+		throw new UnsupportedOperationException();
 	}
 
-	private BigDecimal sum(List indexedValue) {
-		BigDecimal sum = BigDecimal.ZERO;
-		for (Object value : indexedValue) {
-			BigDecimal currValue = new BigDecimal(((Number) aggregateExpression.getValue(value)).doubleValue());
-			sum = sum.add(currValue);
-		}
-		return sum;
+	private Number sum(List indexedValue) {
+		// BigDecimal sum = BigDecimal.ZERO;
+		// for (Object value : indexedValue) {
+		// BigDecimal currValue = new BigDecimal(((Number) aggregateExpression.getValue(value)).doubleValue());
+		// sum = sum.add(currValue);
+		// }
+		// return sum;
+		throw new UnsupportedOperationException();
 	}
 
 	private Object min(List indexedValue) {
-		BigDecimal retValue = BigDecimal.ZERO;
-		if (indexedValue.size() > 0) {
-			retValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(0))).doubleValue());
-
-			for (int i = 1; i < count(indexedValue); i++) {
-				BigDecimal currValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(i))).doubleValue());
-				if (currValue.compareTo(retValue) == -1) {
-					retValue = currValue;
-				}
-			}
-		}
-		return retValue;
+		// BigDecimal retValue = BigDecimal.ZERO;
+		// if (indexedValue.size() > 0) {
+		// retValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(0))).doubleValue());
+		//
+		// for (int i = 1; i < count(indexedValue); i++) {
+		// BigDecimal currValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(i))).doubleValue());
+		// if (currValue.compareTo(retValue) == -1) {
+		// retValue = currValue;
+		// }
+		// }
+		// }
+		// return retValue;
+		throw new UnsupportedOperationException();
 	}
 
 	private Object max(List indexedValue) {
-		BigDecimal retValue = BigDecimal.ZERO;
-		if (indexedValue.size() > 0) {
-			retValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(0))).doubleValue());
-
-			for (int i = 1; i < count(indexedValue); i++) {
-				BigDecimal currValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(i))).doubleValue());
-				if (currValue.compareTo(retValue) == 1) {
-					retValue = currValue;
-				}
-			}
-		}
-		return retValue;
+		// BigDecimal retValue = BigDecimal.ZERO;
+		// if (indexedValue.size() > 0) {
+		// retValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(0))).doubleValue());
+		//
+		// for (int i = 1; i < count(indexedValue); i++) {
+		// BigDecimal currValue = new BigDecimal(((Number) aggregateExpression.getValue(indexedValue.get(i))).doubleValue());
+		// if (currValue.compareTo(retValue) == 1) {
+		// retValue = currValue;
+		// }
+		// }
+		// }
+		// return retValue;
+		throw new UnsupportedOperationException();
 	}
 
 	private Object last(List indexedValue) {
