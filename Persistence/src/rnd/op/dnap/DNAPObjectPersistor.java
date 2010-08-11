@@ -8,7 +8,7 @@ import rnd.op.jdo.JDOPersistorDelegate;
 import rnd.op.jpa.JPAObjectPersistor;
 
 public class DNAPObjectPersistor implements DataStoreDataAccessObject, JDOPersistor, JPAObjectPersistor {
-	
+
 	private JDOPersistorDelegate delegate;
 
 	public DNAPObjectPersistor(PersistenceManagerFactory pmf) {
@@ -18,14 +18,14 @@ public class DNAPObjectPersistor implements DataStoreDataAccessObject, JDOPersis
 	@Override
 	public String getInverseOwner(Class elementType, String indexedPrpName) {
 		boolean rdbms = true;
-		
-		if(rdbms){
+
+		if (rdbms) {
+			return delegate.getInverseOwner(elementType, indexedPrpName);
+		} else {
 			// TODO Auto-generated method stub
-		}else{
-			// TODO Auto-generated method stub
+			return null;
 		}
-		
-		return delegate.getInverseOwner(elementType, indexedPrpName);
+
 	}
 
 	@Override
