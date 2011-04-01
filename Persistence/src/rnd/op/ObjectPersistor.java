@@ -1,6 +1,6 @@
 package rnd.op;
 
-public interface ObjectPersistor<T> extends ObjectLifeCycle<T> {
+public interface ObjectPersistor extends ObjectLifeCycle {
 
 	Object getObjectId(Object object);
 

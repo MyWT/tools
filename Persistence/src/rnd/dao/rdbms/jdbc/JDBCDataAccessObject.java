@@ -1,14 +1,7 @@
 package rnd.dao.rdbms.jdbc;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import rnd.dao.rdbms.SQLDAOContext;
 import rnd.dao.rdbms.SQLDataAccessObject;
 import rnd.dao.rdbms.jdbc.rsmdp.ResultSetMetaDataProcessor;
 import rnd.dao.rdbms.jdbc.rsp.ArrayResultSetProcessor;
@@ -23,12 +16,12 @@ import rnd.dao.rdbms.jdbc.rsp.UnitResultSetProcessor;
 
 public class JDBCDataAccessObject implements SQLDataAccessObject {
 
-	private JDBCDataAccessObject() {
+	public JDBCDataAccessObject() {
 	}
 
 	// Unit : It is a atomic value
 	// Array : It is a horizenal row
-	
+
 	// List : It is a collection of Row (Unit/Array)
 	// Map : It map First Unit to rest Row (Unit/Array)
 
@@ -48,20 +41,20 @@ public class JDBCDataAccessObject implements SQLDataAccessObject {
 
 	public static ResultSetProcessor MapListArrayResultSetProcessor = new MapListArrayResultSetProcessor();
 
-	private static JDBCDataAccessObject sharedInstance;
+	// private static JDBCDataAccessObject sharedInstance;
 
-	public static synchronized JDBCDataAccessObject get() {
-		if (sharedInstance == null) {
-			sharedInstance = new JDBCDataAccessObject();
-		}
-		return sharedInstance;
-	}
+	// public static synchronized JDBCDataAccessObject get() {
+	// if (sharedInstance == null) {
+	// sharedInstance = new JDBCDataAccessObject();
+	// }
+	// return sharedInstance;
+	// }
 
-	private static interface StatementExecutor {
-
-		Object executeStatement(Statement stat) throws SQLException;
-
-	}
+	// private static interface StatementExecutor {
+	//
+	// Object executeStatement(Statement stat) throws SQLException;
+	//
+	// }
 
 	// executeQuery
 
@@ -75,13 +68,14 @@ public class JDBCDataAccessObject implements SQLDataAccessObject {
 	}
 
 	public Object executeQuery(final String query, final Object[] param, final ResultSetProcessor rsp, final ResultSetMetaDataProcessor rsmdp, Connection conn, boolean closeConn) {
-		return executeStatement(query, param, new StatementExecutor() {
-			public Object executeStatement(Statement stmt) throws SQLException {
-				ResultSet rs = stmt.executeQuery(decorateQuery(query, param));
-				Object retVal = rsp.processResultSet(rs, rsmdp);
-				return retVal;
-			}
-		}, conn, closeConn);
+		return null;
+		// return executeStatement(query, param, new StatementExecutor() {
+		// public Object executeStatement(Statement stmt) throws SQLException {
+		// ResultSet rs = stmt.executeQuery(decorateQuery(query, param));
+		// Object retVal = rsp.processResultSet(rs, rsmdp);
+		// return retVal;
+		// }
+		// }, conn, closeConn);
 	}
 
 	// executeUpdate
@@ -91,12 +85,13 @@ public class JDBCDataAccessObject implements SQLDataAccessObject {
 	}
 
 	public int executeUpdate(final String query, final Object[] param, Connection conn, boolean closeConnection) {
-		return (Integer) executeStatement(query, param, new StatementExecutor() {
-			public Object executeStatement(Statement stat) throws SQLException {
-				Integer result = stat.executeUpdate(decorateQuery(query, param));
-				return result;
-			}
-		}, conn, closeConnection);
+		return 0;
+		// return (Integer) executeStatement(query, param, new StatementExecutor() {
+		// public Object executeStatement(Statement stat) throws SQLException {
+		// Integer result = stat.executeUpdate(decorateQuery(query, param));
+		// return result;
+		// }
+		// }, conn, closeConnection);
 	}
 
 	// execute
@@ -110,97 +105,93 @@ public class JDBCDataAccessObject implements SQLDataAccessObject {
 	}
 
 	public Object execute(final String query, final Object[] param, final ResultSetProcessor resultSetProcessor, final ResultSetMetaDataProcessor rsmdp, Connection conn, boolean closeConnection) {
-		return executeStatement(query, param, new StatementExecutor() {
-			public Object executeStatement(Statement stat) throws SQLException {
-				boolean result = stat.execute(decorateQuery(query, param));
-				if (result) {
-					return resultSetProcessor.processResultSet(stat.getResultSet(), rsmdp);
-				}
-				return stat.getUpdateCount();
-			}
-		}, conn, closeConnection);
+		return null;
+		// return executeStatement(query, param, new StatementExecutor() {
+		// public Object executeStatement(Statement stat) throws SQLException {
+		// boolean result = stat.execute(decorateQuery(query, param));
+		// if (result) {
+		// return resultSetProcessor.processResultSet(stat.getResultSet(), rsmdp);
+		// }
+		// return stat.getUpdateCount();
+		// }
+		// }, conn, closeConnection);
 	}
 
 	// execute Statement
 
-	private Object executeStatement(String query, Object[] param, StatementExecutor statementExecutor, Connection conn, boolean closeConnection) {
-		Statement stat = null;
-		try {
-			return statementExecutor.executeStatement(conn.createStatement());
-		} catch (SQLException ex) {
-			throw new RuntimeException(ex);
-		} finally {
-			finallyClose(null, stat, conn, closeConnection);
-		}
-	}
+	// private Object executeStatement(String query, Object[] param, StatementExecutor statementExecutor, Connection conn, boolean closeConnection) {
+	// Statement stat = null;
+	// try {
+	// return statementExecutor.executeStatement(conn.createStatement());
+	// } catch (SQLException ex) {
+	// throw new RuntimeException(ex);
+	// } finally {
+	// finallyClose(null, stat, conn, closeConnection);
+	// }
+	// }
 
 	// finally Close
 
-	private void finallyClose(ResultSet rs, Statement stat, Connection conn, boolean closeConnection) {
-		if (closeConnection) {
-			finallyClose(rs, stat, conn);
-		} else {
-			finallyClose(rs, stat);
-		}
-	}
+	// private void finallyClose(ResultSet rs, Statement stat, Connection conn, boolean closeConnection) {
+	// if (closeConnection) {
+	// finallyClose(rs, stat, conn);
+	// } else {
+	// finallyClose(rs, stat);
+	// }
+	// }
 
-	private void finallyClose(ResultSet rs, Statement ps) {
-		finallyClose(rs, ps, null);
-	}
+	// private void finallyClose(ResultSet rs, Statement ps) {
+	// finallyClose(rs, ps, null);
+	// }
 
-	private void finallyClose(ResultSet rs, Statement ps, Connection conn) {
-		try {
-			if (rs != null) {
-				rs.close();
-			}
-			if (ps != null) {
-				ps.close();
-			}
-			if (conn != null) {
-				conn.close();
-			}
-		} catch (SQLException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
+	// private void finallyClose(ResultSet rs, Statement ps, Connection conn) {
+	// try {
+	// if (rs != null) {
+	// rs.close();
+	// }
+	// if (ps != null) {
+	// ps.close();
+	// }
+	// if (conn != null) {
+	// conn.close();
+	// }
+	// } catch (SQLException ex) {
+	// throw new RuntimeException(ex);
+	// }
+	// }
 
 	// decorate Query : Replace '?' with Parmeter
-	// TODO : This decoration does not handle null parametet in case a of 'where' cluase
+	// This decoration does not handle null parameter in case a of 'where' cluase
 
-	private static DateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	// private static DateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	private String decorateQuery(String query, Object[] param) {
-		StringBuffer queryBuffer = new StringBuffer(query);
+	// private String decorateQuery(String query, Object[] param) {
+	// StringBuffer queryBuffer = new StringBuffer(query);
+	//
+	// if (param != null) {
+	// int index = 0;
+	// for (int i = 0; i < param.length; i++) {
+	// index = queryBuffer.indexOf("?", index);
+	// if (index != -1) {
+	// queryBuffer.setCharAt(index, ' ');
+	// String parameter = "null";
+	// if (param[i] != null) {
+	// parameter = String.valueOf(param[i]);
+	// if (param[i] instanceof Date) {
+	// parameter = "'" + sqlDateFormat.format((Date) param[i]) + "'";
+	// }
+	// if (param[i] instanceof String) {
+	// parameter = "'" + parameter + "'";
+	// }
+	// }
+	// queryBuffer.insert(index, parameter);
+	// index += parameter.length();
+	// } else {
+	// break;
+	// }
+	// }
+	// }
+	// return queryBuffer.toString();
+	// }
 
-		if (param != null) {
-			int index = 0;
-			for (int i = 0; i < param.length; i++) {
-				index = queryBuffer.indexOf("?", index);
-				if (index != -1) {
-					queryBuffer.setCharAt(index, ' ');
-					String parameter = "null";
-					if (param[i] != null) {
-						parameter = String.valueOf(param[i]);
-						if (param[i] instanceof Date) {
-							parameter = "'" + sqlDateFormat.format((Date) param[i]) + "'";
-						}
-						if (param[i] instanceof String) {
-							parameter = "'" + parameter + "'";
-						}
-					}
-					queryBuffer.insert(index, parameter);
-					index += parameter.length();
-				} else {
-					break;
-				}
-			}
-		}
-		return queryBuffer.toString();
-	}
-
-	@Override
-	public Object select(String[] fieldsNames, String from, String where, Object[] params, SQLDAOContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

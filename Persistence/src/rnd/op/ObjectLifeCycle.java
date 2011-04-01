@@ -1,10 +1,10 @@
 package rnd.op;
 
-public interface ObjectLifeCycle<T> {
+public interface ObjectLifeCycle {
 
-	T saveObject(T object);
+	<T> T saveObject(T object);
 
-	T findObject(Object id, Class<T> objType);
+	<T> T findObject(Object id, Class<T> objType);
 
 	void deleteObject(Object id, Class objType);
 

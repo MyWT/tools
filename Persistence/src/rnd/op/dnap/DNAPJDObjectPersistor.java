@@ -1,31 +1,27 @@
 package rnd.op.dnap;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
-import rnd.dao.datastore.DataStoreDataAccessObject;
 import rnd.op.jdo.JDOPersistor;
 import rnd.op.jdo.JDOPersistorDelegate;
-import rnd.op.jpa.JPAObjectPersistor;
 
-public class DNAPObjectPersistor implements DataStoreDataAccessObject, JDOPersistor, JPAObjectPersistor {
+public class DNAPJDObjectPersistor implements JDOPersistor {
 
-	private JDOPersistorDelegate delegate;
+	private final JDOPersistorDelegate delegate;
 
-	public DNAPObjectPersistor(PersistenceManagerFactory pmf) {
+	public DNAPJDObjectPersistor() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory(getClass().getClassLoader().getResourceAsStream("pmf.properties"));
+		delegate = new JDOPersistorDelegate(pmf);
+	}
+
+	public DNAPJDObjectPersistor(PersistenceManagerFactory pmf) {
 		delegate = new JDOPersistorDelegate(pmf);
 	}
 
 	@Override
 	public String getInverseOwner(Class elementType, String indexedPrpName) {
-		boolean rdbms = true;
-
-		if (rdbms) {
-			return delegate.getInverseOwner(elementType, indexedPrpName);
-		} else {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
+		return delegate.getInverseOwner(elementType, indexedPrpName);
 	}
 
 	@Override
@@ -52,4 +48,5 @@ public class DNAPObjectPersistor implements DataStoreDataAccessObject, JDOPersis
 	public Object saveObject(Object object) {
 		return delegate.saveObject(object);
 	}
+
 }
