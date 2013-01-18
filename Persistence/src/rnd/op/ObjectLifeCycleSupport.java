@@ -1,6 +1,6 @@
 package rnd.op;
 
-public interface ObjectLifeCycle {
+public interface ObjectLifeCycleSupport {
 
 	<T> T saveObject(T object);
 
