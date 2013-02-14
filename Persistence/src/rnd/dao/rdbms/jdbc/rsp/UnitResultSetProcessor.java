@@ -1,6 +1,7 @@
 package rnd.dao.rdbms.jdbc.rsp;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import rnd.dao.rdbms.jdbc.rp.RowProcessor;
@@ -9,7 +10,7 @@ import rnd.dao.rdbms.jdbc.rp.UnitRowProcessor;
 public class UnitResultSetProcessor extends AbstractResultSetProcessor {
 
 	@Override
-	protected RowProcessor getNewRowProcessor() {
+	protected RowProcessor getRowProcessor(ResultSetMetaData rsmd) {
 		return new UnitRowProcessor();
 	}
 

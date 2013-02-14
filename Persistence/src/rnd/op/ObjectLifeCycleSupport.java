@@ -1,11 +1,13 @@
 package rnd.op;
 
-public interface ObjectLifeCycleSupport {
+public interface ObjectLifeCycleSupport<T> {
 
-	<T> T saveObject(T object);
+	T saveObject(T object);
 
-	<T> T findObject(Object id, Class<T> objType);
+	T findObject(Object id, Class<T> objType);
 
-	void deleteObject(Object id, Class objType);
+	T updateObject(Object id, T object);
+
+	void deleteObject(Object id, Class<T> objType);
 
 }

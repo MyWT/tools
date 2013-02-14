@@ -8,7 +8,8 @@ import rnd.dao.rdbms.jdbc.rp.RowProcessor;
 import rnd.dao.rdbms.jdbc.rsmdp.ResultSetMetaDataProcessor;
 
 /**
- * Result Set Processor are static singltons so there is no use of non-static data
+ * Result Set Processor are static singltons so there is no use of non-static
+ * data
  * 
  * @author Vinod.Pahuja
  * 
@@ -22,24 +23,21 @@ public abstract class AbstractResultSetProcessor implements ResultSetProcessor {
 
 		ResultSetMetaData rsmd = rs.getMetaData();
 
-		RowProcessor rowProcessor = getNewRowProcessor();
+		RowProcessor rp = getRowProcessor(rsmd);
 
-		rowProcessor.setEndIndex(rsmd.getColumnCount());
-
-		Object rowSetProcessorResult = processRowSet(rs, rowProcessor);
+		Object rsmdpResult = null;
+		if (rsmdp != null) {
+			rsmdpResult = rsmdp.processResultSetMetaData(rsmd);
+		}
+		Object rspResult = processRowSet(rs, rp);
 
 		if (rsmdp != null) {
-			Object metaDataProcessorResult = processResultSetMetaData(rsmd, rsmdp);
-			return new Object[] { metaDataProcessorResult, rowSetProcessorResult };
+			return new Object[] { rsmdpResult, rspResult };
 		}
-		return rowSetProcessorResult;
+		return rspResult;
 	}
 
-	private Object processResultSetMetaData(ResultSetMetaData rsmd, ResultSetMetaDataProcessor rsmdp) throws SQLException {
-		return rsmdp.processResultSetMetaData(rsmd);
-	}
-
-	protected abstract RowProcessor getNewRowProcessor();
+	protected abstract RowProcessor getRowProcessor(ResultSetMetaData rsmd);
 
 	protected abstract Object processRowSet(ResultSet rs, RowProcessor rowProcessor) throws SQLException;
 

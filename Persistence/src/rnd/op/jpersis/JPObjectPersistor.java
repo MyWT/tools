@@ -4,21 +4,22 @@ import java.sql.Connection;
 
 import jpersist.DatabaseManager;
 import jpersist.JPersistException;
-import rnd.op.rdbms.JDBCObjectPersistor;
+import rnd.op.rdbms.AbsJDBCObjectPersistor;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
-public class JPObjectPersistor implements JDBCObjectPersistor {
+public class JPObjectPersistor extends AbsJDBCObjectPersistor {
 
 	private DatabaseManager dbm;
 
 	public JPObjectPersistor() {
-		dbm = DatabaseManager.getUrlDefinedDatabaseManager("mydb", 10, SQLServerDriver.class.getName(), "jdbc:sqlserver://20.198.56.93:1433;DatabaseName=mydb", null, "dbo", "sqlinst1", "sqlinst1");
+		dbm = DatabaseManager.getUrlDefinedDatabaseManager("mydb", 10, SQLServerDriver.class.getName(), "jdbc:sqlserver://localhost:1433;DatabaseName=mydb", null, "dbo", "sqlinst1", "sqlinst1");
 	}
 
 	@Override
-	public <T> T saveObject(T object) {
+	public Object saveObject(Object object) {
 		try {
+
 			dbm.saveObject(object);
 		} catch (JPersistException e) {
 			throw new RuntimeException(e);
@@ -27,7 +28,17 @@ public class JPObjectPersistor implements JDBCObjectPersistor {
 	}
 
 	@Override
-	public <T> T findObject(Object id, Class<T> objType) {
+	public Object updateObject(Object id, Object object) {
+		try {
+			dbm.saveObject(id, object);
+		} catch (JPersistException e) {
+			throw new RuntimeException(e);
+		}
+		return object;
+	}
+
+	@Override
+	public Object findObject(Object id, Class objType) {
 		try {
 			return dbm.loadObject(id, objType);
 		} catch (JPersistException e) {
@@ -37,19 +48,19 @@ public class JPObjectPersistor implements JDBCObjectPersistor {
 
 	@Override
 	public void deleteObject(Object id, Class objType) {
-		// TODO Auto-generated method stub
+		try {
+			dbm.deleteObject(id, objType);
+		} catch (JPersistException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	@Override
 	public Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object getObjectId(Object object) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return dbm.getDatabase().getConnection();
+		} catch (JPersistException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

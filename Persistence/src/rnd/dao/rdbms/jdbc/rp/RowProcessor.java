@@ -9,5 +9,4 @@ public interface RowProcessor {
 
 	void setStartIndex(int startIndex);
 
-	void setEndIndex(int endIndex);
 }

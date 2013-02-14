@@ -1,6 +1,7 @@
 package rnd.dao.rdbms.jdbc.rsp;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,12 +14,13 @@ import rnd.dao.rdbms.jdbc.rp.UnitRowProcessor;
 public class MapListResultSetProcessor extends AbstractResultSetProcessor {
 
 	@Override
-	protected RowProcessor getNewRowProcessor() {
+	protected RowProcessor getRowProcessor(ResultSetMetaData rsmd) {
 		return new UnitRowProcessor();
 	}
 
 	@Override
 	protected Object processRowSet(ResultSet rs, RowProcessor rowProcessor) throws SQLException {
+		
 		rowProcessor.setStartIndex(2);
 
 		Map map = new HashMap(rs.getFetchSize());

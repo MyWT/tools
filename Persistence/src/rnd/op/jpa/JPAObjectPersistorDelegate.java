@@ -1,9 +1,23 @@
 package rnd.op.jpa;
 
+import rnd.dao.jpa.JPADataAccessObject;
+
 public class JPAObjectPersistorDelegate implements JPAObjectPersistor {
 
 	@Override
-	public Object getObjectId(Object object) {
+	public Object saveObject(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object findObject(Object id, Class objType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object updateObject(Object id, Object object) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -15,13 +29,7 @@ public class JPAObjectPersistorDelegate implements JPAObjectPersistor {
 	}
 
 	@Override
-	public <T> T findObject(Object id, Class<T> objType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <T> T saveObject(T object) {
+	public JPADataAccessObject getDataAccessObject() {
 		// TODO Auto-generated method stub
 		return null;
 	}

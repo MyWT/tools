@@ -1,40 +1,13 @@
 package rnd.op.kodo;
 
-import java.sql.Connection;
-
 import javax.jdo.PersistenceManagerFactory;
 
-import rnd.op.jdo.JDOPersistor;
-import rnd.op.jdo.JDOPersistorDelegate;
-import rnd.op.jpa.JPAObjectPersistor;
-import rnd.op.rdbms.JDBCObjectPersistor;
+import rnd.op.jdo.AbsJDOPersistor;
 
-public class KodoObjectPersistor implements JDOPersistor, JPAObjectPersistor, JDBCObjectPersistor {
+public class KodoJDObjectPersistor extends AbsJDOPersistor {
 
-	private JDOPersistorDelegate delegate;
-
-	public KodoObjectPersistor(PersistenceManagerFactory pmf) {
-		delegate = new JDOPersistorDelegate(pmf);
-	}
-
-	@Override
-	public Object createObjectId(Object id, Class objType) {
-		return delegate.createObjectId(id, objType);
-	}
-
-	@Override
-	public void deleteObject(Object id, Class objType) {
-		delegate.deleteObject(id, objType);
-	}
-
-	@Override
-	public Object findObject(Object id, Class objType) {
-		return delegate.findObject(id, objType);
-	}
-
-	@Override
-	public Object saveObject(Object object) {
-		return delegate.saveObject(object);
+	public KodoJDObjectPersistor(PersistenceManagerFactory pmf) {
+		super(pmf);
 	}
 
 	// public Object saveObject(final Object object) {
@@ -78,11 +51,13 @@ public class KodoObjectPersistor implements JDOPersistor, JPAObjectPersistor, JD
 
 	// private Collection<String> getFetchGroup(Class objType) {
 	// return collectFetchGroup(new LinkedList<String>(),
-	// kodo.runtime.KodoObjectPersistor.getMetaData(this.delegate, objType), null);
+	// kodo.runtime.KodoObjectPersistor.getMetaData(this.delegate, objType),
+	// null);
 	// }
 
 	// FIXME for cyclic Type
-	// private Collection<String> collectFetchGroup(Collection<String> fetchGroups, ClassMetaData
+	// private Collection<String> collectFetchGroup(Collection<String>
+	// fetchGroups, ClassMetaData
 	// classMetaData, FieldMetaData inverseOwner) {
 	// FieldMetaData[] fieldMetaDatas = classMetaData.getFields();
 	//
@@ -97,7 +72,8 @@ public class KodoObjectPersistor implements JDOPersistor, JPAObjectPersistor, JD
 	// collectFetchGroup(fetchGroups, fmd.getTypeMetaData(), null);
 	// }
 	// if (fmd.getElementTypeMetaData() != null) {
-	// collectFetchGroup(fetchGroups, fmd.getElementTypeMetaData(), fmd.getInverseOwnerMetaData());
+	// collectFetchGroup(fetchGroups, fmd.getElementTypeMetaData(),
+	// fmd.getInverseOwnerMetaData());
 	// }
 	// }
 	// return fetchGroups;
@@ -127,17 +103,13 @@ public class KodoObjectPersistor implements JDOPersistor, JPAObjectPersistor, JD
 		// objType).getField(indexedPrpName).getInverseOwner();
 	}
 
-	@Override
-	public Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	// private Long getDetachedObjectId(Object object) {
 	// try {
-	// String stringfiedId = (String) object.getClass().getMethod("jdoGetDetachedObjectId",
+	// String stringfiedId = (String)
+	// object.getClass().getMethod("jdoGetDetachedObjectId",
 	// null).invoke(object, null);
-	// return new Long(stringfiedId.substring(stringfiedId.lastIndexOf("-") + 1));
+	// return new Long(stringfiedId.substring(stringfiedId.lastIndexOf("-") +
+	// 1));
 	// } catch (Exception e) {
 	// throw new RuntimeException(e);
 	// }

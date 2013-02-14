@@ -4,6 +4,8 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
+import rnd.dao.jdo.JDOQLDataAccessObject;
+
 public final class JDOPersistorDelegate implements JDOPersistor {
 
 	private final PersistenceManagerFactory pmf;
@@ -12,7 +14,6 @@ public final class JDOPersistorDelegate implements JDOPersistor {
 		this.pmf = pmf;
 	}
 
-	@Override
 	public Object getObjectId(Object object) {
 		Object id = JDOHelper.getObjectId(object);
 		return id;
@@ -39,6 +40,12 @@ public final class JDOPersistorDelegate implements JDOPersistor {
 	}
 
 	@Override
+	public Object updateObject(Object id, Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void deleteObject(Object id, Class objType) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		try {
@@ -62,6 +69,12 @@ public final class JDOPersistorDelegate implements JDOPersistor {
 	@Override
 	public String getInverseOwner(Class elementType, String indexedPrpName) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public JDOQLDataAccessObject getDataAccessObject() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
