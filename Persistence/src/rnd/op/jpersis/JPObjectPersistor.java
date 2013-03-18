@@ -1,6 +1,8 @@
 package rnd.op.jpersis;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import jpersist.DatabaseManager;
 import jpersist.JPersistException;
@@ -41,6 +43,16 @@ public class JPObjectPersistor extends AbsJDBCObjectPersistor {
 	public Object findObject(Object id, Class objType) {
 		try {
 			return dbm.loadObject(id, objType);
+		} catch (JPersistException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Collection findAllObject(Object[] criteria, Object[] params, Class objType) {
+
+		try {
+			return dbm.loadObjects(new ArrayList(), objType, criteria[0].toString(), params[0]);
 		} catch (JPersistException e) {
 			throw new RuntimeException(e);
 		}
