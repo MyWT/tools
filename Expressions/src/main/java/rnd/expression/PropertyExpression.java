@@ -1,6 +1,6 @@
 package rnd.expression;
 
-public abstract class PropertyExpression extends AbstractExpression {
+public class PropertyExpression extends AbstractExpression {
 
 	public static interface PropertyExpressionBuilder {
 

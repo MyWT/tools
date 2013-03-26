@@ -45,7 +45,7 @@ public class AbstractExpression implements Expression, Serializable {
 	}
 
 	protected XChangeListenerDelegate getNewXChangeListenerDelegate(XChangeListener xChangeListener) {
-		throw new UnsupportedOperationException("Operation Should be implmented by Derived Class");
+		throw new UnsupportedOperationException("Operation must be implmented by Derived Class");
 	}
 
 }

@@ -9,11 +9,6 @@
 	
 	function appendLog(message) {
 		
-		//message = message.replace('/\r/g','<br>');
-		//message = message.replace('/\n/g','<br>');
-		//message = message.replace('/Content-type: text/plain/g','');
-		//message = message.replace('/--End/g','');
-		
 		message = message.replace('/\\r/g','<br>');
 		message = message.replace('/\\n/g','<br>');
 		message = message.replace('/Content-type: text/plain/g','');
