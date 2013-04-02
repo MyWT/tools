@@ -4,8 +4,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import rnd.expression.Expression;
-import rnd.expression.PropertyExpression;
-import rnd.expression.PropertyExpression.PropertyExpressionBuilder;
 
 public class TestXP {
 
@@ -13,13 +11,14 @@ public class TestXP {
 
 	@BeforeClass
 	public static void initBuilder() {
-		PropertyExpression.setPropertyExpressionBuilder(new PropertyExpressionBuilder() {
-			@Override
-			public PropertyExpression buildPropertyExpression(String prpName) {
-				return new PropertyExpression(prpName) {
-				};
-			}
-		});
+		// ValueExpression.setPropertyExpressionBuilder(new
+		// PropertyExpressionBuilder() {
+		// @Override
+		// public ValueExpression buildPropertyExpression(String prpName) {
+		// return new ValueExpression(prpName) {
+		// };
+		// }
+		// });
 	}
 
 	// @Test

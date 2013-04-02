@@ -8,11 +8,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+import rnd.bean.expression.ValueExpression;
 import rnd.expression.BinaryExpression;
 import rnd.expression.BinaryOperation;
 import rnd.expression.Expression;
 import rnd.expression.LiteralExpression;
-import rnd.expression.PropertyExpression;
 import rnd.expression.UnaryNegationExpression;
 import rnd.expression.parser.operator.ArithmeticOperators;
 import rnd.expression.parser.operator.EqualityOperators;
@@ -21,9 +21,9 @@ import rnd.expression.parser.operator.Operator;
 import rnd.expression.parser.operator.OperatorsRegistory;
 import rnd.expression.parser.operator.RelationalOperators;
 import rnd.expression.parser.tree.node.DNode;
+import rnd.expression.parser.tree.node.DNode.DNodeType;
 import rnd.expression.parser.tree.node.ONode;
 import rnd.expression.parser.tree.node.XNode;
-import rnd.expression.parser.tree.node.DNode.DNodeType;
 
 public class XP {
 
@@ -186,7 +186,7 @@ public class XP {
 					de = new LiteralExpression(dNode.getData());
 					break;
 				case VARIABLE:
-					de = PropertyExpression.getPropertyExpression(dNode.getData());
+					de = ValueExpression.buildExpression(dNode.getData());
 					break;
 				}
 				expStack.push(de);

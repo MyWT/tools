@@ -1,8 +1,10 @@
-package rnd.expression;
+package rnd.bean.expression;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rnd.expression.AbstractExpression;
+import rnd.expression.Expression;
 import rnd.utils.WrapperUtils;
 
 public class FilterExpression extends AbstractExpression {
