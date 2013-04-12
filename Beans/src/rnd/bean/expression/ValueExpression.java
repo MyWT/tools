@@ -10,11 +10,6 @@ import rnd.expression.XChangeListener;
 
 public class ValueExpression extends AbstractExpression {
 
-	public static interface ExpressionBuilder {
-
-		Expression buildExpression(String prpName);
-	}
-
 	private static ExpressionBuilder builder;
 
 	protected String propertyName;
@@ -26,12 +21,12 @@ public class ValueExpression extends AbstractExpression {
 		this.propertyName = propertyName;
 	}
 
-	public static void setPropertyExpressionBuilder(ExpressionBuilder builder) {
+	public static void setExpressionBuilder(ExpressionBuilder builder) {
 		ValueExpression.builder = builder;
 	}
 
 	public static Expression buildExpression(Object data) {
-		return builder.buildExpression(data.toString());
+		return builder.buildExpression(data);
 	}
 
 	@Override

@@ -1,7 +1,11 @@
 package rnd.expression;
 
-
 public interface Expression {
+
+	public static interface ExpressionBuilder {
+
+		Expression buildExpression(Object data);
+	}
 
 	void setValue(Object object, Object value);
 
