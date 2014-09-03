@@ -32,11 +32,11 @@ public class AbstractExpression implements Expression, Serializable {
 
 	private HashMap<XChangeListener, XChangeListenerDelegate> changeListenerDelegateMap = new HashMap<XChangeListener, XChangeListenerDelegate>(0);
 
-	protected final XChangeListenerDelegate getXChangeListenerDelegate(XChangeListener xChangeListener, boolean remove) {
+	protected final XChangeListenerDelegate getXChangeListenerDelegate(XChangeListener xChangeListener, boolean add) {
 		XChangeListenerDelegate xclDelegate = this.changeListenerDelegateMap.get(xChangeListener);
 
 		if (xclDelegate == null) {
-			if (!remove) {
+			if (add) {
 				xclDelegate = getNewXChangeListenerDelegate(xChangeListener);
 				this.changeListenerDelegateMap.put(xChangeListener, xclDelegate);
 			}

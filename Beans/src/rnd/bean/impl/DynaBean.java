@@ -11,7 +11,7 @@ import rnd.bean.AbstractBean;
 /**
  * @description DynaBean is just serializable implementation of Bean
  * 
- * @author vinodp
+ * @author vinod.pahuja
  * 
  */
 public class DynaBean extends AbstractBean implements Serializable {

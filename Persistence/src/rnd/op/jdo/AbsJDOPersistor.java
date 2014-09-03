@@ -39,13 +39,11 @@
 //
 //	@Override
 //	public JDOQLDataAccessObject getDataAccessObject() {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 //
 //	@Override
 //	public String getInverseOwner(Class elementType, String indexedPrpName) {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 //

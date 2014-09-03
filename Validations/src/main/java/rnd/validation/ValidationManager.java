@@ -9,8 +9,8 @@ public class ValidationManager {
 
 		List<Validation> validations = new ArrayList<Validation>();
 		
-		// TODO get validaion list from OMD
-		// TODO support Resourse bundle in Validaion Message
+		// TODO validation - get validaion list from OMD
+		// TODO validation - support Resourse bundle in Validaion Message
 
 		for (Validation validation : validations) {
 			if (!validation.isValid(object)) {

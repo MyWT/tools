@@ -2,9 +2,10 @@ package rnd.bean;
 
 import rnd.bean.impl.DynaConstrainedBean;
 
-public class ApplicationDynaBean extends DynaConstrainedBean implements ApplicationBean {
+public final class ApplicationDynaBean extends DynaConstrainedBean implements ApplicationBean {
 
-	private static final String CLASS_NAME = "ClassName";
+	public static final String ID = "Id";
+	public static final String CLASS_NAME = "ClassName";
 
 	public ApplicationDynaBean() {
 	}
@@ -31,6 +32,6 @@ public class ApplicationDynaBean extends DynaConstrainedBean implements Applicat
 
 	@Override
 	public String toString() {
-		return super.toString() + "-" + getId();
+		return getClassName() + "-" + getId();
 	}
 }

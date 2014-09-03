@@ -44,8 +44,6 @@ public class AggregateExpression extends AbstractExpression {
 			return average(indexedValue);
 		}
 
-		// TODO
-
 		return indexedValue;
 	}
 

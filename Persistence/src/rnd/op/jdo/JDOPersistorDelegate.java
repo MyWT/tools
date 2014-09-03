@@ -33,7 +33,6 @@
 //	
 //	@Override
 //	public Collection findAllObject(Object[] criteria, Object[] params, Class objType) {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 //
@@ -49,7 +48,6 @@
 //
 //	@Override
 //	public Object updateObject(Object id, Object object) {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 //
@@ -81,7 +79,6 @@
 //
 //	@Override
 //	public JDOQLDataAccessObject getDataAccessObject() {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 //

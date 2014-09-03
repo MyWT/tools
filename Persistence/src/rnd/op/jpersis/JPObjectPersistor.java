@@ -15,7 +15,11 @@ public class JPObjectPersistor extends AbsJDBCObjectPersistor {
 	private DatabaseManager dbm;
 
 	public JPObjectPersistor() {
-		dbm = DatabaseManager.getUrlDefinedDatabaseManager("mydb", 10, SQLServerDriver.class.getName(), "jdbc:sqlserver://localhost:1433;DatabaseName=mydb", null, "dbo", "sqlinst1", "sqlinst1");
+		dbm = DatabaseManager.getUrlDefinedDatabaseManager("mydb", //
+				10, //
+				SQLServerDriver.class.getName(), //
+				"jdbc:sqlserver://localhost:1433;DatabaseName=mydb", null, //
+				"dbo", "sqlinst1", "sqlinst1");
 	}
 
 	@Override
