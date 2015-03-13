@@ -1,6 +1,6 @@
-package rnd.op.rdbms;
+package rnd.op.jdbc;
 
-import rnd.dao.rdbms.jdbc.JDBCDataAccessObject;
+import rnd.dao.sql.jdbc.JDBCDataAccessObject;
 
 public abstract class AbsJDBCObjectPersistor implements JDBCObjectPersistor {
 

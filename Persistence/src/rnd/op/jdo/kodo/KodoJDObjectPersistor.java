@@ -1,4 +1,4 @@
-//package rnd.op.kodo;
+package rnd.op.jdo.kodo;
 //
 //import javax.jdo.PersistenceManagerFactory;
 //

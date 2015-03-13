@@ -1,12 +1,10 @@
-package rnd.op.jpersis;
+package rnd.op.jpersist;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import jpersist.DatabaseManager;
-import jpersist.JPersistException;
-import rnd.op.rdbms.AbsJDBCObjectPersistor;
+import rnd.op.jdbc.AbsJDBCObjectPersistor;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 

@@ -1,8 +1,8 @@
-package rnd.op.rdbms;
+package rnd.op.jdbc;
 
 import java.sql.Connection;
 
-import rnd.dao.rdbms.jdbc.JDBCDataAccessObject;
+import rnd.dao.sql.jdbc.JDBCDataAccessObject;
 import rnd.op.ObjectPersistor;
 
 public interface JDBCObjectPersistor extends ObjectPersistor {

@@ -1,6 +1,6 @@
 package rnd.op.jdo;
 
-import rnd.dao.jdo.JDOQLDataAccessObject;
+import rnd.dao.DataAccessObject;
 import rnd.op.ObjectPersistor;
 
 public interface JDOPersistor extends ObjectPersistor {
@@ -9,6 +9,6 @@ public interface JDOPersistor extends ObjectPersistor {
 
 	Object createObjectId(Object id, Class objType);
 
-	JDOQLDataAccessObject getDataAccessObject();
+	DataAccessObject getDataAccessObject();
 
 }
